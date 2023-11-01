@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             "test_node = 3pv_drone.test_node:main",
+            "image_publisher = 3pv_drone.image_publisher:main"
         ],
     },
 )
