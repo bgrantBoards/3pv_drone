@@ -56,7 +56,8 @@ class PersonTracker(Node):
         self.publisher_ = self.create_publisher(Image, 'person_detection', 10)
 
         # create a subscriber object that listens for new images and runs person detection process on them
-        self.subscriber_ = self.create_subscription(Image, 'screen_record', self.detect_person, 10)
+        # self.subscriber_ = self.create_subscription(Image, 'screen_record', self.detect_person, 10)
+        self.subscriber_ = self.create_subscription(Image, 'video_raw', self.detect_person, 10)
                 
         # Used to convert between ROS and OpenCV images
         self.br = CvBridge()
@@ -71,11 +72,14 @@ class PersonTracker(Node):
         self.get_logger().info('Receiving video frame')
 
         # Convert ROS Image message to OpenCV image
-        current_frame = self.br.imgmsg_to_cv2(data)
+        image = self.br.imgmsg_to_cv2(data)
+
+        # image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # convert to grayscale
+        # image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR) # convert back to color
 
         # Resizing the Image
-        image = imutils.resize(current_frame,
-                            width=min(400, current_frame.shape[1]))
+        # image = imutils.resize(current_frame,
+        #                     width=min(400, current_frame.shape[1]))
         
         # Detecting all the regions in the 
         # Image that has a pedestrians inside it
@@ -93,7 +97,7 @@ class PersonTracker(Node):
         processed_frame = image
         
         # publish processed image
-        self.publisher_.publish(self.br.cv2_to_imgmsg(processed_frame,  encoding='rgb8'))
+        self.publisher_.publish(self.br.cv2_to_imgmsg(processed_frame,  encoding='bgr8'))
         # cv2.imshow("camera", current_frame)
   
 def main(args=None):

@@ -1,21 +1,55 @@
-# Basic ROS 2 program to publish real-time streaming 
-# video from your built-in webcam
-# Author:
-# - Addison Sears-Collins
-# - https://automaticaddison.com
-  
 # Import the necessary libraries
 import rclpy # Python Client Library for ROS 2
 from rclpy.node import Node # Handles the creation of nodes
+import numpy as np
 from sensor_msgs.msg import Image # Image is the message type
 from cv_bridge import CvBridge # Package to convert between ROS and OpenCV Images
 import cv2 # OpenCV library
- 
+from v4l2py.device import Device # For detecting camera port id
+
+# function for finding id number of camera based on name
+def get_camera_id(name_contains:str, port_range:int=10):
+    """
+    Find the first dev/ port number (id) of a usb camera whose card
+    info contains the provided string.
+
+    Args:
+        name_contains (str, optional): identifying string in camera's v4l2 card info. Defaults to "USB".
+        range (int): number of ports to check. Function will check ports 0, 1, 2... up to this number.
+
+    Returns:
+        int: id number (port number i guess)
+    """
+    cam_cards = {}
+    match_id = None
+    # loop through possible ids, starting at 0
+    for id in range(port_range + 1):
+        cam = Device.from_id(id)
+        try:
+            cam.open()
+            cam_cards[id] = cam.info.card
+            if name_contains in cam.info.card.lower() and not match_id:
+                match_id = id
+        except:
+            pass
+    
+    print(f'searching for camera whose name contains "{name_contains}"')
+    print("    available cameras:")
+    for id, card in cam_cards.items():
+        print(f"        id {id}:", card)
+    
+    if match_id is not None:
+        print(f"search success:\n    id {match_id}: {cam_cards[match_id]}")
+        return match_id
+    else: # no match found
+        raise ValueError(f'no camera found with name containing "{name_contains}"')
+
+
 class ImagePublisher(Node):
   """
   Create an ImagePublisher class, which is a subclass of the Node class.
   """
-  def __init__(self):
+  def __init__(self, cam_name_contains:str):
     """
     Class constructor to set up the node
     """
@@ -24,10 +58,10 @@ class ImagePublisher(Node):
       
     # Create the publisher. This publisher will publish an Image
     # to the video_frames topic. The queue size is 10 messages.
-    self.publisher_ = self.create_publisher(Image, 'video_raw', 10)
+    self.publisher_ = self.create_publisher(Image, 'image_rect', 10)
       
     # We will publish a message every 0.1 seconds
-    fps = 10
+    fps = 20
     timer_period = 1/fps  # seconds
       
     # Create the timer
@@ -35,10 +69,16 @@ class ImagePublisher(Node):
          
     # Create a VideoCapture object
     # The argument '0' gets the default webcam.
-    self.cap = cv2.VideoCapture(0)
+    self.cap = cv2.VideoCapture(get_camera_id(name_contains=cam_name_contains))
          
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
+
+    # camera calbration params (copy from calibration yaml file)
+    self.camera_matrix = np.array([[209.41852, 0.       , 324.61798],
+                                   [0.       , 210.7007 , 245.44306],
+                                   [0.       , 0.       ,   1.     ]])
+    self.dist_coeffs = np.array([-0.001051, -0.013015, -0.000785, 0.000690, 0.000000])
    
   def timer_callback(self):
     """
@@ -51,10 +91,12 @@ class ImagePublisher(Node):
     ret, frame = self.cap.read()
           
     if ret == True:
+      # rectify the image
+      frame = cv2.undistort(frame, self.camera_matrix, self.dist_coeffs)
+      # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
       # Publish the image.
-      # The 'cv2_to_imgmsg' method converts an OpenCV
-      # image to a ROS 2 image message
-      self.publisher_.publish(self.br.cv2_to_imgmsg(frame, encoding='rgb8'))
+      self.publisher_.publish(self.br.cv2_to_imgmsg(frame, encoding='bgr8'))
  
     # Display the message on the console
     self.get_logger().info('Publishing video frame')
