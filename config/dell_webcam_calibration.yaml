@@ -1,0 +1,26 @@
+image_width: 640
+image_height: 480
+camera_name: dell_webcam
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [468.5273 ,   0.     , 342.98833,
+           0.     , 469.75325, 246.1058 ,
+           0.     ,   0.     ,   1.     ]
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.013121, 0.013526, -0.004713, 0.000163, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1., 0., 0.,
+         0., 1., 0.,
+         0., 0., 1.]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [469.74518,   0.     , 342.9709 ,   0.     ,
+           0.     , 469.96324, 243.74957,   0.     ,
+           0.     ,   0.     ,   1.     ,   0.     ]
