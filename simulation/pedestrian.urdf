@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<robot name="/home/ben/3pv_ros2_ws/src/3pv_drone/simulation/pedestrian.urdf" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_link">
+  </link>
+  <link name="solid">
+  </link>
+  <joint name="base_link_solid_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="solid"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="HEAD" type="continuous">
+    <parent link="solid"/>
+    <child link="head"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.01 0 0.37" rpy="0 0 0"/>
+  </joint>
+  <link name="head">
+  </link>
+  <joint name="RIGHT_LEG" type="continuous">
+    <parent link="solid"/>
+    <child link="right leg"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.05 -0.17 -0.67" rpy="0 0 0"/>
+  </joint>
+  <link name="right leg">
+  </link>
+  <joint name="hingejoint" type="continuous">
+    <parent link="right leg"/>
+    <child link="solid_0"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.01 0 -0.46" rpy="0 0 0"/>
+  </joint>
+  <link name="solid_0">
+  </link>
+  <joint name="hingejoint_1" type="continuous">
+    <parent link="solid_0"/>
+    <child link="solid_2"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.062 0 -0.405" rpy="0 0 0"/>
+  </joint>
+  <link name="solid_2">
+  </link>
+  <joint name="LEFT_LEG" type="continuous">
+    <parent link="solid"/>
+    <child link="left leg"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.052 0.34 0.865" rpy="0 0 0"/>
+  </joint>
+  <link name="left leg">
+  </link>
+  <joint name="hingejoint_3" type="continuous">
+    <parent link="left leg"/>
+    <child link="solid_4"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.01 0 -0.46" rpy="0 0 0"/>
+  </joint>
+  <link name="solid_4">
+  </link>
+  <joint name="hingejoint_5" type="continuous">
+    <parent link="solid_4"/>
+    <child link="solid_6"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.062 0 -0.405" rpy="0 0 0"/>
+  </joint>
+  <link name="solid_6">
+  </link>
+  <joint name="RIGHT_ARM" type="continuous">
+    <parent link="solid"/>
+    <child link="right arm"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.082 -0.45 1.355" rpy="0 0 0"/>
+  </joint>
+  <link name="right arm">
+  </link>
+  <joint name="hingejoint_7" type="continuous">
+    <parent link="right arm"/>
+    <child link="solid_8"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.03 0.03 -0.28" rpy="0 0 0"/>
+  </joint>
+  <link name="solid_8">
+  </link>
+  <joint name="hingejoint_9" type="continuous">
+    <parent link="solid_8"/>
+    <child link="solid_10"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.005 0 -0.28" rpy="0 0 0"/>
+  </joint>
+  <link name="solid_10">
+  </link>
+  <joint name="LEFT_ARM" type="continuous">
+    <parent link="solid"/>
+    <child link="left arm"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.025 0.53 0.56" rpy="0 0 0"/>
+  </joint>
+  <link name="left arm">
+  </link>
+  <joint name="hingejoint_11" type="continuous">
+    <parent link="left arm"/>
+    <child link="solid_12"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.03 -0.03 -0.28" rpy="0 0 0"/>
+  </joint>
+  <link name="solid_12">
+  </link>
+  <joint name="hingejoint_13" type="continuous">
+    <parent link="solid_12"/>
+    <child link="solid_14"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.005 0 -0.28" rpy="0 0 0"/>
+  </joint>
+  <link name="solid_14">
+  </link>
+  <link name="photo frame">
+    <visual>
+      <origin xyz="0.047436 -0.25 0.435005" rpy="1.047201 -0.000001 1.570805"/>
+      <geometry>
+        <box size="0.5 0.5 0.01"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.047436 -0.25 0.435005" rpy="1.047201 -0.000001 1.570805"/>
+      <geometry>
+        <box size="0.5 0.5 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_link_photo frame_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="photo frame"/>
+    <origin xyz="-0.053628 -0.25 0.370194" rpy="0 0.523599 3.14159"/>
+  </joint>
+</robot>

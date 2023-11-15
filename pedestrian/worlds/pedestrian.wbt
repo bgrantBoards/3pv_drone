@@ -1,0 +1,54 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/CircleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
+
+WorldInfo {
+  info [
+    "Pedestrian Simulation"
+  ]
+  title "Autonomous Vehicle"
+  ERP 0.6
+  basicTimeStep 10
+  lineScale 1
+  contactProperties [
+    ContactProperties {
+      softCFM 0.0003
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.03139008509490269 0.9965181148907921 -0.07724188793806454 0.5281524581117237
+  position -13.773222372607883 0.17302439179328954 4.325336382583446
+  near 1
+  follow "pedestrian"
+  followType "Mounted Shot"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+CircleArena {
+  radius 10
+  floorTileSize 1 1
+  wallThickness 0.1
+  wallHeight 1
+}
+Pedestrian {
+  translation -8.04 0 1.25
+  controller "<extern>"
+  shirtColor 0 0 0
+  pantsColor 0.752941 0.74902 0.737255
+  rightLegAngle -0.56
+  rightLowerLegAngle 0.84
+  leftLegAngle -0.55
+  leftLowerLegAngle 1.4
+  leftFootAngle 0.07
+  rightArmAngle 0.52
+  rightLowerArmAngle -0.47
+  leftArmAngle -0.52
+  leftHandAngle 0.12
+  headAngle 0.18
+}

@@ -7,6 +7,8 @@ import cv2 # OpenCV library
 import cv2.aruco as aruco # aruco tag module of OpenCV library
 from utils import read_camera_params, estimatePoseSingleMarkers
 import numpy as np
+from geometry_msgs.msg import Pose
+import time
  
 class ArucoDetector(Node):
 	"""
@@ -27,7 +29,11 @@ class ArucoDetector(Node):
 			self.detect_tags, 
 			10)
 		
-		self.publisher = self.create_publisher(Image, "aruco_image", 10)
+		# image publisher (for tag detection overlay)
+		self.img_publisher = self.create_publisher(Image, "aruco_image", 10)
+
+		# tag pose publisher
+		self.tag_pose_publisher = self.create_publisher(Pose, "aruco_pose", 1)
 			
 		# Used to convert between ROS and OpenCV images
 		self.br = CvBridge()
@@ -39,10 +45,11 @@ class ArucoDetector(Node):
 		self.aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)  # Use 4x4 dictionary to find markers
 		parameters = aruco.DetectorParameters()  # Marker detection parameters
 		self.aruco_detector = aruco.ArucoDetector(dictionary=self.aruco_dict, detectorParams=parameters)
+		self.tag_pose:PoseStamped = None
 
 	def detect_tags(self, data):
 		# Display status message on the console
-		self.get_logger().info('Receiving video frame')
+		# self.get_logger().info('Receiving video frame')
  
 		# Convert ROS Image message to OpenCV image
 		frame = self.br.imgmsg_to_cv2(data)
@@ -63,12 +70,38 @@ class ArucoDetector(Node):
 					aruco.drawDetectedMarkers(frame, corners)  # Draw A square around the markers
 					try:
 						cv2.drawFrameAxes(frame, self.camera_matrix, self.dist_coeffs, rvec, tvec, 0.1)  # Draw Axis
+						self._publish_pose(rvec, tvec)
 					except:
 						pass
 		
 		# Display image)
-		self.publisher.publish(self.br.cv2_to_imgmsg(frame, encoding="rgb8"))
+		self.img_publisher.publish(self.br.cv2_to_imgmsg(frame, encoding="rgb8"))
 	
+	def _publish_pose(self, rvec:np.ndarray, tvec:np.ndarray):
+		tvec = tvec.reshape(3,1)
+		tvec = [tvec[0][0], tvec[1][0], tvec[2][0]]
+		rvec = rvec.reshape(3,1)
+		rvec = [rvec[0][0], rvec[1][0], rvec[2][0]]
+
+		# Create a PoseStamped message
+		pose = Pose()
+		pose.position.x = tvec[0]
+		pose.position.y = tvec[1]
+		pose.position.z = tvec[2]
+		pose.orientation.w = 0.
+		pose.orientation.x = rvec[0]
+		pose.orientation.y = rvec[1]
+		pose.orientation.z = rvec[2]
+
+		print("detected tag\n"+\
+		f"x:{pose.orientation.x} "+\
+		f"y:{pose.orientation.y} "+\
+		f"z:{pose.orientation.z}\n"
+		)
+
+		# Publish the pose message
+		self.tag_pose_publisher.publish(pose)
+
 def main(args=None):
 	
 	# Initialize the rclpy library

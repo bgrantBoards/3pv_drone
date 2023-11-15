@@ -52,7 +52,7 @@ def get_camera_id(name_contains:str, port_range:int=10):
         try:
             cam.open()
             cam_cards[id] = cam.info.card
-            if name_contains in cam.info.card.lower() and not match_id:
+            if name_contains.lower() in cam.info.card.lower() and not match_id:
                 match_id = id
         except:
             pass

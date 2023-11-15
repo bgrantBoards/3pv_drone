@@ -32,8 +32,8 @@ class ImagePublisher(Node):
          
     # Create a VideoCapture object
     # The argument '0' gets the default webcam.
-    # self.cap = cv2.VideoCapture(0)
-    self.cap = cv2.VideoCapture(get_camera_id(name_contains=cam_name_contains)) # TODO: uncomment 
+    self.cap = cv2.VideoCapture(0)
+    # self.cap = cv2.VideoCapture(get_camera_id(name_contains=cam_name_contains)) # TODO: uncomment 
          
     # Used to convert between ROS and OpenCV images
     self.br = CvBridge()
@@ -72,7 +72,7 @@ def main(args=None):
   
   # Create the node
   # TODO: add arg for setting calibration_yaml
-  image_publisher = ImagePublisher(calibration_yaml="dell_webcam_calibration.yaml", cam_name_contains="integrate")
+  image_publisher = ImagePublisher(calibration_yaml="fpv_cam_calibration.yaml", cam_name_contains="USB2.0")
   
   # Spin the node so the callback function is called.
   rclpy.spin(image_publisher)

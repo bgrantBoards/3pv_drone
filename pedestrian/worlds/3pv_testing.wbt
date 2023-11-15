@@ -1,0 +1,120 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.16449071426218287 -0.4396719473565415 -0.8829673740457366 5.481886567383099
+  position -7.133331136311771 -5.289331736098093 4.050030709830951
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 20 20
+  floorTileSize 2 2
+}
+Pedestrian {
+  controller "pedestrian_keyboard"
+  controllerArgs [
+    ""
+  ]
+  bodySlot [
+    Solid {
+      translation -0.0886284 -1.94326e-07 0.000194098
+      rotation -0.25881895959356005 3.448809461576877e-07 0.9659258492010597 3.14159
+      children [
+        Pose {
+          translation 0.05 3.43455e-07 -8.36465e-08
+          rotation -0.4472119236211293 -0.44721492362061693 -0.7745968677073869 -1.8234853071795865
+          children [
+            Pose {
+              translation 0 0.075 0
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "../../resource/tag 0.png"
+                      ]
+                    }
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Plane {
+                    size 0.5 0.5
+                  }
+                }
+              ]
+            }
+            Pose {
+              translation 0 0.075 0
+              rotation 0 1 0 3.14159
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_base_color.jpg"
+                      ]
+                    }
+                    roughnessMap ImageTexture {
+                      url [
+                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_roughness.jpg"
+                      ]
+                    }
+                    metalness 0
+                    normalMap ImageTexture {
+                      url [
+                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_normal.jpg"
+                      ]
+                    }
+                  }
+                  geometry Plane {
+                    size 0.5 0.5
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "photo frame"
+      boundingObject Group {
+        children [
+          Pose {
+            translation 0.0124361 3.52492e-08 0.065005
+            rotation -0.4472119236211293 -0.44721492362061693 -0.7745968677073869 -1.8234853071795865
+            children [
+              Box {
+                size 0.5 0.5 0.01
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+Crazyflie {
+  translation -1.94 0 0.01
+  controller "crazyflie_py_wallfollowing"
+  extensionSlot [
+    Camera {
+      translation 0.02 0 0.0173205
+      rotation 0 1 0 0.523599
+      name "camera(1)"
+      boundingObject Box {
+        size 0.015 0.015 0.02
+      }
+      lens Lens {
+      }
+    }
+  ]
+}
