@@ -2,16 +2,17 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.21739511407676365 0.5027407292812814 0.8366547217922553 0.9537770449163062
-  position -4.304546445647883 -5.01184974743512 5.356211165664562
+  orientation -0.32703472098090713 0.5270016740943521 0.7844217786208455 1.3385828933764357
+  position 1.2976884430650923 -1.6633029478495762 2.8395634641303054
+  follow "Crazyflie"
 }
 TexturedBackground {
 }
@@ -56,99 +57,6 @@ Solid {
   name "rectangle arena"
   model "rectangle arena"
   locked TRUE
-}
-Pedestrian {
-  translation 3.01 0 1.25
-  controller "pedestrian_keyboard"
-  controllerArgs [
-    ""
-  ]
-  bodySlot [
-    Solid {
-      translation -0.0886284 -1.94326e-07 0.000194098
-      rotation -0.25881895959356005 3.448809461576877e-07 0.9659258492010597 3.14159
-      children [
-        Pose {
-          translation 0.05 3.43455e-07 -8.36465e-08
-          rotation -0.4472119236211293 -0.44721492362061693 -0.7745968677073869 -1.8234853071795865
-          children [
-            Pose {
-              translation 0 0.075 0
-              children [
-                Shape {
-                  appearance PBRAppearance {
-                    baseColorMap ImageTexture {
-                      url [
-                        "../../resource/tag 0.png"
-                      ]
-                    }
-                    roughness 1
-                    metalness 0
-                  }
-                  geometry Plane {
-                    size 0.4 0.4
-                  }
-                }
-              ]
-            }
-            Pose {
-              translation 0 0.075 0
-              rotation 0 1 0 3.14159
-              children [
-                Shape {
-                  appearance PBRAppearance {
-                    baseColorMap ImageTexture {
-                      url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_base_color.jpg"
-                      ]
-                    }
-                    roughnessMap ImageTexture {
-                      url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_roughness.jpg"
-                      ]
-                    }
-                    metalness 0
-                    normalMap ImageTexture {
-                      url [
-                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_normal.jpg"
-                      ]
-                    }
-                  }
-                  geometry Plane {
-                    size 0.5 0.5
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-      name "photo frame"
-      boundingObject Group {
-        children [
-          Pose {
-            translation 0.0124361 3.52492e-08 0.065005
-            rotation -0.4472119236211293 -0.44721492362061693 -0.7745968677073869 -1.8234853071795865
-            children [
-              Box {
-                size 0.5 0.5 0.01
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ]
-  rightLegAngle -0.56
-  rightLowerLegAngle 0.84
-  leftLegAngle -0.55
-  leftLowerLegAngle 1.4
-  leftFootAngle 0.07
-  rightArmAngle 0.52
-  rightLowerArmAngle -0.47
-  leftArmAngle -0.52
-  leftHandAngle 0.12
-  headAngle 0.18
 }
 Robot {
   translation 0 0 0.015
@@ -346,5 +254,84 @@ Robot {
     density -1
     mass 0.05
   }
-  controller "<extern>"
+  controller "crazyflie_ros"
+}
+Pedestrian {
+  translation 2 0 1.27
+  controller "pedestrian_keyboard"
+  controllerArgs [
+    ""
+  ]
+  bodySlot [
+    Solid {
+      translation -0.13 -3.18432e-07 0.12
+      rotation 0 0 1 3.14159
+      children [
+        Pose {
+          rotation 0 1 0 1.5707996938995747
+          children [
+            Pose {
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "../../resource/tag 0.png"
+                      ]
+                    }
+                    roughness 1
+                    metalness 0
+                  }
+                  geometry Plane {
+                    size 0.4 0.4
+                  }
+                }
+              ]
+            }
+            Pose {
+              rotation 0 1 0 3.14159
+              children [
+                Shape {
+                  appearance PBRAppearance {
+                    baseColorMap ImageTexture {
+                      url [
+                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_base_color.jpg"
+                      ]
+                    }
+                    roughnessMap ImageTexture {
+                      url [
+                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_roughness.jpg"
+                      ]
+                    }
+                    metalness 0
+                    normalMap ImageTexture {
+                      url [
+                        "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/textures/osb_wood/osb_wood_normal.jpg"
+                      ]
+                    }
+                  }
+                  geometry Plane {
+                    size 0.4 0.4
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+      name "aruco tag"
+      boundingObject Group {
+        children [
+          Pose {
+            rotation 0 1 0 1.5707996938995747
+            children [
+              Box {
+                size 0.4 0.4 0.01
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }
