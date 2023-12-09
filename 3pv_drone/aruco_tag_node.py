@@ -45,7 +45,7 @@ class ArucoDetector(Node):
 		self.aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_50)  # Use 4x4 dictionary to find markers
 		parameters = aruco.DetectorParameters()  # Marker detection parameters
 		self.aruco_detector = aruco.ArucoDetector(dictionary=self.aruco_dict, detectorParams=parameters)
-		self.tag_pose:PoseStamped = None
+		self.tag_pose:Pose = None
 
 	def detect_tags(self, data):
 		# Display status message on the console
